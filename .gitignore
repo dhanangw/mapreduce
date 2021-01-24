@@ -1,0 +1,10 @@
+# virtual environments
+venv/
+env/
+
+# input directory
+data/
+
+# auto-generated files
+__pycache__/
+.vs_code/
