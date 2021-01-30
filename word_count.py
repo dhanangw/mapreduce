@@ -1,17 +1,21 @@
 import argparse
+import ntpath
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 from map import Mapper
 from reduce import Reducer
 
 
-def mapper_function(filepath: str) -> int:
+def mapper_function(filepath: str) -> Dict[str, Union[str, int]]:
     word_count = 0
     with open(filepath, 'r') as text_file:
         data = text_file.read()
         word_count = data.split()
-    return len(word_count)
+    return {
+        "key": ntpath.basename(filepath),
+        "value": len(word_count)
+    }
 
 def reducer_function(count_results: List[Dict[str, Any]]) -> int:
     total_word_count = 0

@@ -6,19 +6,14 @@ class Mapper:
     @classmethod
     def map(
         cls,
-        mapper_function: Callable[[Any], Any], 
+        mapper_function: Callable[[Any], Dict[str, Any]], 
         arguments: List[Any],
         num_of_worker: int = 3
     ) -> List[Dict[str, Any]]:
         results = []
         with multiprocessing.Pool(processes=num_of_worker) as pool:
             for argument in arguments:
-                results.append(
-                    {
-                        "key": argument,
-                        "value": pool.apply_async(mapper_function, (argument,)).get()
-                    }
-                )
+                results.append(pool.apply_async(mapper_function, (argument,)).get())
             pool.close()
             pool.join()
         return results
